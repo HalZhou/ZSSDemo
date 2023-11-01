@@ -1,0 +1,87 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    namespace 'com.zss.common'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    def activity_version = "1.6.1"
+    // Kotlin
+    api "androidx.activity:activity-ktx:$activity_version"
+    def fragment_version = "1.5.5"
+    // Kotlin
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+
+    //retrofit
+    def retrofit_version = "2.9.0"
+    api "com.squareup.retrofit2:retrofit:$retrofit_version"
+    api "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    //lifecycle
+    def lifecycle_version = "2.5.1"
+    // ViewModel
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData
+    api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // Lifecycles only (without ViewModel or LiveData)
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+
+    // coroutines
+    def coroutines_version = "1.3.9"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutines_version}"
+
+    // hint
+    api "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+
+
+
+}
+
+// Allow references to generated code hilt
+kapt {
+    correctErrorTypes true
+}
