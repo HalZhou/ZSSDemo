@@ -8,4 +8,6 @@ MainActivity -> MainViewModel  -> UserRepository -      （网络数据源）
 
                                                         / LoginLocalDataSource   -> Room
 LoginActivity -> LoignViewModel  -> LoginRepository  -    
-                                                        \ LoginRemoteDataSource  -> Retrofit  -> LoginApiService    
+                                                        \ LoginRemoteDataSource  -> Retrofit  -> LoginApiService  
+
+https://blog.csdn.net/guolin_blog/article/details/109787732?spm=1001.2014.3001.5501
