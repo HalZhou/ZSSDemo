@@ -1,11 +1,14 @@
 package com.zss.common.http
 
-import com.zss.common.utils.Utils
 import com.zss.common.constants.Constants
 import com.zss.common.http.cookie.CookieJarImpl
 import com.zss.common.http.cookie.store.PersistentCookieStore
+import com.zss.common.http.interceptor.CacheInterceptor
+import com.zss.common.http.interceptor.HeaderIntercepter
+import com.zss.common.http.interceptor.logger.Level
+import com.zss.common.http.interceptor.logger.LoggingInterceptor
+import com.zss.common.utils.Utils
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -16,9 +19,10 @@ class RetrofitClient {
     private val okhttpClient = OkHttpClient.Builder()
         .cookieJar(CookieJarImpl(PersistentCookieStore(Utils.getContext())))
         .addInterceptor(HeaderIntercepter())
-        .addInterceptor(HttpLoggingInterceptor().apply {
-            this.setLevel(HttpLoggingInterceptor.Level.BASIC)
-        })
+        .addInterceptor(LoggingInterceptor.Builder()
+            .setLevel(Level.BASIC)
+            .tag("Network-OkhttpClient")
+            .build())
         .build()
 
     private val retrofit = Retrofit.Builder()

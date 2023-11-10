@@ -8,5 +8,8 @@ class Constants {
         const val SSO_TOKEN = "SSO_TOKEN"
         const val ENOCH_TENANT = "ENOCH_TENANT"
         const val ENOCH_BRANCH = "ENOCH_BRANCH"
+
+        const val CLASS_NAME = "CLASS_NAME"
+        const val CLASS_BUNDLE = "BUNDLE"
     }
 }

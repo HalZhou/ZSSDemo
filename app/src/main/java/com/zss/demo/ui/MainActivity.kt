@@ -1,65 +1,46 @@
 package com.zss.demo.ui
 
-import android.content.Context
-import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
+import android.Manifest
 import androidx.activity.viewModels
+import com.permissionx.guolindev.PermissionX
+import com.permissionx.guolindev.callback.ExplainReasonCallback
+import com.permissionx.guolindev.callback.RequestCallback
+import com.permissionx.guolindev.request.ExplainScope
 import com.zss.common.base.BaseActivity
-import com.zss.common.utils.LogUtils
-import com.zss.common.utils.NetworkUtils
 import com.zss.demo.R
-import com.zss.demo.data.repository.user.UserRepository
 import com.zss.demo.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import com.zss.demo.BR
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>() {
 
-    private var _binding : ActivityMainBinding? = null
-    val binding : ActivityMainBinding get() = requireNotNull(_binding)
-
-    private val viewModel by viewModels<MainViewModel>()
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-
+    override fun initViewObservables() {
+        super.initViewObservables()
         binding.btnCheck.setOnClickListener {
-            viewModel.doSomething()
+            /*PermissionX.init(this)
+                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.BLUETOOTH)
+                .explainReasonBeforeRequest()
+                .onExplainRequestReason { scope, deniedList ->
+                    scope.showRequestReasonDialog(deniedList,"请允许这些权限","确定","取消")
+                }
+                .onForwardToSettings{scope,deniedList->
+                    scope.showForwardToSettingsDialog(deniedList,"you need to allow necessary permission in settings manually","OK","CANCEL")
+                }
+                .request { allGranted, grantedList, deniedList ->
+                    if (allGranted) {
+                        showShort("All permission are granted")
+                    } else {
+                        showShort("These permissions are denied")
+                    }
+                }*/
+            viewModel.getUser()
         }
     }
 
-    private fun checkNetwork() {
-        val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        var isWifiConn = false
-        var isMobileConn = false
-        connMgr.allNetworks.forEach { network ->
-            connMgr.getNetworkInfo(network)?.apply {
-                if (type == ConnectivityManager.TYPE_WIFI) {
-                    isWifiConn = isWifiConn or  isConnected
-                }
-                if (type == ConnectivityManager.TYPE_MOBILE) {
-                    isMobileConn = isMobileConn or isConnected
-                }
-            }
-        }
-    }
+    override fun getLayoutId(): Int = R.layout.activity_main
 
-    private fun isOnline() : Boolean {
-        val connMgr = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connMgr.activeNetworkInfo
-        return networkInfo?.isConnected == true
-    }
+    override fun initViewModel(): MainViewModel = viewModels<MainViewModel>().value
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
+    override fun initVariableId(): Int = BR.mainViewModel
 }
