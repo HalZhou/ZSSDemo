@@ -1,23 +1,12 @@
 package com.zss.demo.ui
 
-import android.provider.ContactsContract.Data
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.zss.common.base.BaseViewModel
-import com.zss.common.utils.ToastUtils
-import com.zss.demo.base.DataResponse
 import com.zss.demo.data.dto.SsoAuthenticateDto
-import com.zss.demo.data.repository.handleDataResponse
 import com.zss.demo.data.repository.launchRequest
 import com.zss.demo.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
